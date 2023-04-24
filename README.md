@@ -1,1 +1,1 @@
-# tigris-client-js
+# tigris-client-http
