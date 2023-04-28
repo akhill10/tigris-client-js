@@ -1,4 +1,4 @@
-# Tigris Client Library for JS
+# Tigris TS/JS Client Library HTTP
 
 # Documentation
 
