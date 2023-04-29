@@ -1,7 +1,6 @@
 import {
   GetAccessTokenRequest,
   GetAccessTokenResponse,
-  OpenAPI,
   OpenApiClient,
   Status,
 } from "./api/http/v1";
@@ -83,14 +82,14 @@ export class HttpAuthorization {
   private generateToken(
     fromRefreshToken = false
   ): Promise<GetAccessTokenResponse> {
-    const body = fromRefreshToken
+    const body: GetAccessTokenRequest = fromRefreshToken
       ? {
-          grant_type: GetAccessTokenRequest.grant_type.REFRESH_TOKEN,
+          grant_type: "REFRESH_TOKEN",
           refresh_token: (this.accessTokenInstance as AccessToken)
             .refresh_token,
         }
       : {
-          grant_type: GetAccessTokenRequest.grant_type.CLIENT_CREDENTIALS,
+          grant_type: "CLIENT_CREDENTIALS",
           client_id: this.credentials?.clientId,
           client_secret: this.credentials?.clientSecret,
         };
