@@ -56,7 +56,9 @@
     "check:prettier": "npx prettier --check .",
     "prettier": "npx prettier --write .",
     "lint": "node ./node_modules/eslint/bin/eslint src/ --ext .ts",
-    "openapi-codegen-v1": "rm -rf src/api/http/* && openapi -i api/proto/server/v1/openapi.yaml --client axios --output src/api/http/v1 --name OpenApiClient --postfixServices HttpService"
+    "update_api": "git submodule update --init --recursive && git submodule update --remote --recursive --rebase && git submodule foreach --recursive git reset --hard origin/main",
+	"init_api": "git submodule update --init --recursive",
+    "openapi-codegen-v1": "rm -rf src/api/http/* && openapi -i api/proto/server/v1/openapi.yaml --useUnionTypes --client axios --output src/api/http/v1 --name OpenApiClient --postfixServices HttpService"
   },
   "devDependencies": {
     "@semantic-release/npm": "^9.0.2",

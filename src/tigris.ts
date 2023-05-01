@@ -1,5 +1,5 @@
 import { Database } from "./database/database.interface";
-import { Driver, DriverConfig, DriverProtocols, HTTPDriver } from "./driver";
+import { Driver, DriverConfig, HTTPDriver } from "./driver";
 
 export class Tigris {
   private driverConfig: DriverConfig;
