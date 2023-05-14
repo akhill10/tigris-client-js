@@ -11,12 +11,13 @@ export enum DriverProtocols {
 export interface DriverConfig {
   clientId: string;
   clientSecret: string;
-  branch: string;
-  token: string;
-  serverUrl: string;
-  // protocol: DriverProtocols;
-  disablePing: boolean;
-  pingIntervalInMs: number;
+  projectName: string;
+  branch?: string;
+  token?: string;
+  serverUrl?: string;
+  protocol: DriverProtocols;
+  disablePing?: boolean;
+  pingIntervalInMs?: number;
 }
 
 export interface Driver {
@@ -32,18 +33,27 @@ export class HTTPDriver implements Driver {
   }
 
   public getDatabase(): Database {
-    return new DatabaseHttp(this.openApiClient.database);
+    return new DatabaseHttp(
+      this.openApiClient.database,
+      this.driverConfig.projectName,
+      this.driverConfig.branch
+    );
   }
 
-  public async initialize() {
-    this.accessToken = await new HttpAuthorization({
-      clientId: this.driverConfig.clientId,
-      clientSecret: this.driverConfig.clientSecret,
-    }).getAuthorizationHeader();
+  public async initialize(authEnabled?: boolean) {
+    if (authEnabled) {
+      this.accessToken = await new HttpAuthorization(
+        {
+          clientId: this.driverConfig.clientId,
+          clientSecret: this.driverConfig.clientSecret,
+        },
+        this.driverConfig.serverUrl
+      ).getAuthorizationHeader();
+    }
 
     this.openApiClient = new OpenApiClient({
       BASE: this.driverConfig.serverUrl,
-      TOKEN: this.accessToken,
+      ...(authEnabled && { TOKEN: this.accessToken }),
     });
   }
 }

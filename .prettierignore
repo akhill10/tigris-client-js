@@ -1,4 +1,5 @@
 # Ignore artifacts:
 dist/
+src/api
 **/node_modules
 **/coverage

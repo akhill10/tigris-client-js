@@ -14,7 +14,10 @@ export class HttpAuthorization {
    */
   private accessTokenInstance?: AccessToken;
 
-  constructor(private readonly credentials: Credentials) {}
+  constructor(
+    private readonly credentials: Credentials,
+    private readonly baseUrl?: string
+  ) {}
 
   /**
    * Get Access Token
@@ -96,6 +99,7 @@ export class HttpAuthorization {
 
     return new OpenApiClient({
       WITH_CREDENTIALS: true,
+      ...(this.baseUrl && { BASE: this.baseUrl }),
     }).authentication
       .authGetAccessToken(body)
       .then((value) => {
